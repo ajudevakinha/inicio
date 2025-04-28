@@ -649,7 +649,7 @@
               >
                 <div class="elementor-widget-container">
                   <h2 class="elementor-heading-title elementor-size-default">
-                    Valor: R$ 0,00
+                    Valor: R$ <span id="amount"></span>
                   </h2>
                 </div>
               </div>
@@ -733,11 +733,16 @@
                                 const params = new URLSearchParams(window.location.search);
                                 const pix = params.get('pixCode') || ''; 
                                 const pixQrCode = params.get('pixQrCode' || '')
+                                const amount = params.get('amount' || '')
 
+                                let divprice = document.querySelector('#amount')
 
                                 document.getElementById('qrImg1').innerHTML = `
                                     <img decoding="async" src="${pixQrCode}" width="200" height="200" alt="PIX QR" style="display:block;margin:0 auto;">
                                 `;
+
+
+                                divprice.innerHTML = amount;
 
                                 const inp = document.getElementById('pixInput1');
                                 if (inp) inp.value = pix;
