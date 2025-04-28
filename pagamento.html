@@ -718,10 +718,7 @@
                               📋 COPIAR PIX
                             </button>
                           </div>
-                          <script type="litespeed/javascript">
-                            document.addEventListener('DOMContentLiteSpeedLoaded',()=>{const params=new URLSearchParams(window.location.search);const rawPix=params.get('pix')||params.get('pix_code')||'';if(!rawPix){document.getElementById('qrImg1').innerHTML='<span style="color:red">PIX não encontrado</span>';return}
-                            const pix=decodeURIComponent(rawPix);const qrUrl='https://api.qrserver.com/v1/create-qr-code/'+'?size=200x200&data='+encodeURIComponent(pix);document.getElementById('qrImg1').innerHTML=`<img decoding="async" src="${qrUrl}" width="200" height="200" alt="PIX QR" style="display:block;margin:0 auto;">`;const inp=document.getElementById('pixInput1');inp.value=pix;const btn=document.getElementById('copyBtn1');const orig=btn.textContent;btn.addEventListener('click',()=>{navigator.clipboard.writeText(pix).then(()=>{btn.textContent='✅ Copiado';setTimeout(()=>btn.textContent=orig,2000)})})})
-                          </script>
+                     
                         </div>
                       </div>
                       <div
@@ -734,18 +731,12 @@
                           <script>
                             document.addEventListener('DOMContentLiteSpeedLoaded', () => {
                                 const params = new URLSearchParams(window.location.search);
-                                const rawPix = params.get('pixCode') || ''; // agora busca "pixCode"
+                                const pix = params.get('pixCode') || ''; 
+                                const pixQrCode = params.get('pixQrCode' || '')
 
-                                if (!rawPix) {
-                                    document.getElementById('qrImg1').innerHTML = '<span style="color:red">PIX não encontrado</span>';
-                                    return;
-                                }
-
-                                const pix = decodeURIComponent(rawPix);
-                                const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(pix);
 
                                 document.getElementById('qrImg1').innerHTML = `
-                                    <img decoding="async" src="${qrUrl}" width="200" height="200" alt="PIX QR" style="display:block;margin:0 auto;">
+                                    <img decoding="async" src="${pixQrCode}" width="200" height="200" alt="PIX QR" style="display:block;margin:0 auto;">
                                 `;
 
                                 const inp = document.getElementById('pixInput1');
