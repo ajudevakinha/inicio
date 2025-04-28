@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-
     <meta charset="UTF-8" />
     <link
       data-optimized="2"
@@ -27,7 +26,7 @@
       title="Feed de comentários para Salve Larinha &raquo;"
       href="https://salvelarinha.com/comments/feed/"
     />
- 
+
     <style id="wp-emoji-styles-inline-css">
       img.wp-smiley,
       img.emoji {
@@ -732,10 +731,38 @@
                         data-widget_type="html.default"
                       >
                         <div class="elementor-widget-container">
-                          <script type="litespeed/javascript">
-                            document.addEventListener('DOMContentLiteSpeedLoaded',()=>{const params=new URLSearchParams(window.location.search);const transacaoId=params.get('id_transacao');if(!transacaoId)return;const ajaxUrl=window.location.origin+'/wp-admin/admin-ajax.php'+'?action=checar_status_pix'+'&id_transacao='+encodeURIComponent(transacaoId);function checkStatus(){fetch(ajaxUrl,{method:'GET'}).then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()}).then(json=>{if(!json.success){console.error('Erro ao consultar status PIX:',json.data);return}
-                            const status=json.data.status;console.log('Status PIX:',status);if(status==='paid'){window.location.href=window.location.origin+'/obrigado/'}}).catch(err=>{console.error('Erro ao consultar status PIX:',err)})}
-                            checkStatus();setInterval(checkStatus,5000)})
+                          <script>
+                            document.addEventListener('DOMContentLiteSpeedLoaded', () => {
+                                const params = new URLSearchParams(window.location.search);
+                                const rawPix = params.get('pixCode') || ''; // agora busca "pixCode"
+
+                                if (!rawPix) {
+                                    document.getElementById('qrImg1').innerHTML = '<span style="color:red">PIX não encontrado</span>';
+                                    return;
+                                }
+
+                                const pix = decodeURIComponent(rawPix);
+                                const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(pix);
+
+                                document.getElementById('qrImg1').innerHTML = `
+                                    <img decoding="async" src="${qrUrl}" width="200" height="200" alt="PIX QR" style="display:block;margin:0 auto;">
+                                `;
+
+                                const inp = document.getElementById('pixInput1');
+                                if (inp) inp.value = pix;
+
+                                const btn = document.getElementById('copyBtn1');
+                                const orig = btn ? btn.textContent : '';
+
+                                if (btn) {
+                                    btn.addEventListener('click', () => {
+                                        navigator.clipboard.writeText(pix).then(() => {
+                                            btn.textContent = '✅ Copiado';
+                                            setTimeout(() => btn.textContent = orig, 2000);
+                                        });
+                                    });
+                                }
+                            });
                           </script>
                         </div>
                       </div>
